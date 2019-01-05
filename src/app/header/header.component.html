@@ -1,0 +1,50 @@
+<nav class="navbar navbar-light" style="background-color:#000000;">
+  <ul class="nav col-md-6">
+    <li class="nav-item">
+      <a class="nav-link active" [routerLink]="['./page',1]"> Home </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="meal"> Fresher </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="add"> Add ProDuct </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="meal"> News </a>
+    </li>
+  </ul>
+  <ul class="nav justify-content-end col-md-6" *ngIf="!acountservice.IsLoggin()">
+    <li class="nav-item">
+       <a routerLink="Cart"><fa name="shopping-cart" class="fa-2x" style="color:white"></fa></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="SignIn">Sign In</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="SignUp">Sign Up</a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="#" (click)="OnSaveData()">Save Data</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="OnFetchData()">Fetch Data</a>
+    </li> -->
+  </ul>
+  <ul class="nav justify-content-end col-md-6" *ngIf="acountservice.IsLoggin()">
+    <li class="nav-item">
+       <a routerLink="Cart"><fa name="shopping-cart" class="fa-2x" style="color:white"></fa></a>
+    </li>
+    <li class="nav-item">
+      <label class="nav-link" style="color:#fff">Chào {{ email }}</label>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="" (click)="SignOut()">Sign Out</a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="#" (click)="OnSaveData()">Save Data</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="OnFetchData()">Fetch Data</a>
+    </li> -->
+  </ul>
+</nav>

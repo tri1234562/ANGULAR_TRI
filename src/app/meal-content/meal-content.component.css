@@ -1,0 +1,35 @@
+h4{
+    text-align: center;
+    color: Red;
+    margin-top:10px;
+}
+em{
+    font-size: 15px;
+    color:#000;
+}
+ul{
+    list-style: none;
+    align-content: center;
+    margin:0;
+    margin-bottom: 15px;
+}
+.details{
+    text-align: center;
+}
+.detail li{
+    padding-top:7px;
+    height: 45px;
+    display: inline-block;
+    text-align: center;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.detail li.first{
+    border-top: 1px solid #000;
+}
+.detail li:nth-child(even){
+    border-right: 1px solid #000;
+}
+button{
+    margin-right: 25px;
+}

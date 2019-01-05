@@ -1,0 +1,10 @@
+
+<form class="form-group" #formSignIn="ngForm" (ngSubmit)="OnSubmit(formSignIn)">
+    <label for="email"> Email </label>
+    <input type="email" ngModel name="email" class="form-control" required>
+
+    <label for="password"> PassWord </label>
+    <input type="text" ngModel name="password" class="form-control" required>
+
+    <button [disabled]="formSignIn.invalid" class="btn btn-success" type="submit">Sign In</button>
+</form>

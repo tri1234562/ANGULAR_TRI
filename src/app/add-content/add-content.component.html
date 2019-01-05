@@ -1,0 +1,64 @@
+<h1> Add New ProDuct </h1>
+<div class="row">
+  <form class="col-md-7" #formaddpro="ngForm" (ngSubmit)="OnSubmitForm(formaddpro)">
+
+    <div class="form-group row">
+      <label for="Name" class="col-sm-3 col-md-3 col-form-label">Name</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="name" [ngModel]="slp.name" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Price" class="col-sm-3 col-md-3 col-form-label" >Price</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="price" [ngModel]="slp.price" required pattern="^[1-9]+[0-9]*$">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Image" class="col-sm-3 col-md-3 col-form-label">Image Link</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="image" required [ngModel]="slp.image">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Ingredients" class="col-sm-3 col-md-3 col-form-label">Ingredients</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="ing" [ngModel]="slp.detail.ingredient" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="nutrition" class="col-sm-3 col-md-3 col-form-label">Nutrition</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="nut" [ngModel]="slp.detail.nutrition" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="timewait" class="col-sm-3 col-md-3 col-form-label">Time Wait</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="tim" [ngModel]="slp.detail.timewait" required >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="original" class="col-sm-3 col-md-3 col-form-label">Original</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="ori" [ngModel]="slp.detail.original" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Name" class="col-sm-3 col-md-3 col-form-label">Chief's Name:</label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="chi" [ngModel]="slp.detail.chief" required>
+      </div>
+    </div>
+
+    <button [(disabled)]="!formaddpro.valid" class="btn btn-primary" type="submit">{{ editmode? "Save Change" : "Add New Product"}}</button>
+    <button class="btn btn-danger" style="margin-left:10px;" (click)="OnCancel()">Cancel</button>
+  </form>
+</div>

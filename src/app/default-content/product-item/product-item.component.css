@@ -1,0 +1,20 @@
+a{
+    margin-bottom: 10px;
+    padding-left:0;
+    text-align: center;
+}
+a:hover{
+    text-decoration: none;
+}
+a:hover h3{
+    color:red;
+    transition: 0.3s ease-in-out;
+}
+
+.detail{
+    border:1px solid #000;
+}
+h3{
+    font-size: 20px;
+    color:#000;
+}

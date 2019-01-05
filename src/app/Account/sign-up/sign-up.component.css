@@ -1,0 +1,10 @@
+.form-control{
+    display: inline-block;
+}
+label{
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    padding-right: 7px;
+    padding-top:6px;
+}

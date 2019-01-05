@@ -1,0 +1,54 @@
+
+<div class="row">
+  <form [formGroup]="SignUpForm" class="col-md-9 col-xs-12" (ngSubmit)="OnSubmit()">
+    <div class="form-group row">
+      <label class="col-md-3 col-xs-12" for="formGroupExampleInput">Name</label>
+      <input  
+        class="col-md-8 col-xs-12 form-control" 
+        type="text" 
+        id="formGroupExampleInput" 
+        formControlName="Name"
+      >
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-xs-12" for="formGroupExampleInput">Email</label>
+      <input  
+        class="col-md-8 col-xs-12 form-control" 
+        type="email" 
+        id="formGroupExampleInput"
+        formControlName="Email"
+      >
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-xs-12" for="formGroupExampleInput">PassWord</label>
+      <input  
+      class="col-md-8 col-xs-12 form-control" 
+      type="text" 
+      id="formGroupExampleInput" 
+      formControlName="PassWord"
+    >
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-xs-12" for="formGroupExampleInput">TelePhone Number</label>
+      <input  
+      class="col-md-8 col-xs-12 form-control" 
+      type="text" 
+      id="formGroupExampleInput" 
+      formControlName="Sdt"
+    >
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-xs-12" for="formGroupExampleInput">Address</label>
+      <input  
+      class="col-md-8 col-xs-12 form-control" 
+      type="text" 
+      id="formGroupExampleInput" 
+      formControlName="Address"
+    >
+    </div>
+
+    <button [disabled]="SignUpForm.invalid" type="submit" class="btn btn-primary">SignUp With Us</button>
+  </form>
+</div>
