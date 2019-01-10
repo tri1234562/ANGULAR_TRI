@@ -1,0 +1,694 @@
+**************************************************Folder 1*****************************************************
+
+	-4 bước tạo angular:
+		+npm install -g @angular/cli
+		+ng new name-folder
+		+cd name-folder
+		+ng serve
+	-Cai bootstrap va font-awesome vao:
+		+npm install --save bootstrap font-awesome  (--save để save vào packed.json)
+		+vào file cli.json -> style -> "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+		+ng serve
+
+***************************************************Folder 2******************************************************
+	-Khi có nhiều module trong app , sử dụng cú pháp ntn để thêm vào module mình muốn.(VD là thêm vào module app)
+		+ ng g c new-component --module app
+		
+	- Syntax Create quickly a component folder
+		+ ng g c folder-name
+		
+	-file module.ts sẽ là file truyền lên main.ts trong angular.
+		+import các component ở trong file module.ts này.
+		+property bootstrap trong Ngmodel của file module.ts sẽ quyết định component nào được chọn hiển thị trên trang index.
+		
+	-file component.ts là file tạo ra selector(VD: <app-root></app-root>) và đường dẫn templateUrl đến file component html
+		+selector ngoài dạng thẻ html <selector></selector> thì còn có thể là class or property. VD: selector :'.app-root'
+		
+	-string binding thi cần có ngoặc móc VD: <p> {{ bing }}</p>
+	
+	-property thi khong can ngoặc móc. VD: <p [innerHTML]='bing'></p> /or/ <button [disable] = 'variable'>Click Me</button>
+	
+	-event-binding: VD: 
+		+ clickme(){ console.log('hello world')};//(trong file .ts phần export)
+		+ <button (click) ='clickme()'></button>;
+		
+	-Two-way databinding:
+		+Use [(ngModel)] ='var' --> ngModel và var cùng thay đổi khi giá trị thay đổi , nhưng k khiến Value($event) thay đổi.-->//cần add FormModule(from angular/forms) mới sử dụng đc Ngmodel.
+		+Use (keyup)='funcname($event)' --> Values thay đổi khi event xảy ra , thay đổi cả ngModel và Var nếu 2 biến này liên quan tới function.
+		
+	-*ngIf="vari": nếu vari true thì hành động mới đc thực thi
+		+Syntax:
+			<p *ngIf="vari; else nothing"></p> --> sử dụng <ng-template #nothing> thì nội dung else sẽ đc thực hiện nếu If sai
+			
+	-Directive: Nếu phần selector: "[tri]"  --> thì khi qua component html phải gọi bằng cách <p tri>HEllo world</p>
+	
+	-ngStyle sử dụng để thay đổi style css của các thành phần sử dụng , có thể sử dụng function trong ngStyle.
+		+Syntax:
+			<p [ngStyle]="{color: getColor()}"></p> //-->Getcolor() la 1 function trong file component.ts
+			
+	-ngClass: Dùng để add 1 class vào 1 thành phần chỉ định.
+		+Syntax: <p [ngClass]="{classname: condition1 && condition2}"></p> --> nếu condition 1 VS 2 đúng thì class ms được add vào , class trong file.css
+		
+	-ngFor let a of b: Cứ Mỗi Lần b thực hiện 1 lần thì a cũng được lặp lại theo --> Coi Ví dụ video 37 để rõ hơn
+		+Syntax: *ngFor="let a of b"
+		+ Cách lấy index trong <p *ngFor: *ngFor="let x of arraytri; let i = index"> {{ i }} </p>
+	
+	-Note Directive * !!!
+***************************************************Folder 3******************************************************
+	-Create component cho project.Cần phân chia component cụ thể và rõ ràng theo từng mục.
+	
+	-Tạo file name.model.ts để export các Class mẫu và kiểu dữ liệu để truyền biến vào.
+	
+	-Muốn sử dụng Class thì Component.ts phải import file model vào.
+	
+	-Mối lần add dữ liệu phải dùng 'new classname()'.
+	
+	-Không được tạo model.ts ở folder app, phải tạo 1 thư mục r mới tạo.
+	
+	-file app.component.ts không sử dụng được các Class Import từ model.
+
+***************************************************Folder 5******************************************************
+	-Input , Output and Alias(kí hiệu) cho input output
+	-Nói một cách dễ hiểu:
+		+Input Nhận dữ liệu từ app-component vào.
+		+Output Truyền dữ liệu vào cho app-component.
+		+Có thể tự tạo event = new EventEmitter(). 
+			VD: @Output() createserver = new EventEmitter<{servername:string,contents:string}>();
+			bên thẻ app-component.html: <app-header (createserver)="onappserver($event)">
+		+Cả Input,Output,EventEmitter muốn sử dụng đều phải import chúng vào file muốn sử dụng.
+	-Capsualation(gói gọn): css component nào thì component đó nhận, muốn component khác nhạn phải sử dụng ViewEncapsualation-->Phải Import ViewEncapsualation vào component muốn sử dụng.
+		VD: +app-component  có css color:red;
+			+header-component muốn nhận được color:red thì sử dụng. @component({Encapsulation: ViewEncapsualation.None}) --> Còn có .Native và .Emulated (mức ảnh hưởng giảm dần).
+	
+	-Local-references-->??
+	-ElementRef-->??
+	-Viewchild: truy cap vào DOM vs việc sử dụng local-references.
+	-Viewchildren : giống Viewchild nhưng lấy nhiều phần tử chứ k chỉ lấy phần tử đầu tiên.
+	-LifeCycle: Change -> init -> docheck -> content-init -> content-check -> view-init -> view-check -> destroy.
+	
+***************************************************Folder 6-Directive******************************************************
+	-structural-directive & Attribute-directive
+	
+	-Benefit of Renderer2?????
+	-Directive: Đưa vào 1 element để Directive xử lí, Directive k có template cũng như HTML.
+	
+	-Renderer acts on the DOM and ElementRef is a reference to an element in the DOM the Renderer acts on.
+	
+	-Renderer2 có nhiều method vd: .addClass(),.setStyle(),.removeClass() ...v..v
+	-@HostListener: Host Event For Property.
+	-@HostBinding: Bind For Host Property.
+	-Video 89 --> 5:30 , Video 85: Compare Renderer2?????????????????????????????????????????????????????????
+	-Symbol in Angular:
+		+	{{ }} for interpolation.
+		+	[] for property binding.
+		+	() for event binding.
+		+	# for variable declaration.
+		+	* for structural directives.
+	-Binding For directive property: tạo các biến default ở html-root , vào file con @input nhận.
+	-Có Thể sử dụng tên selector trùng với tên input: 2 in 1
+	-<ng-template></ng-template> bình thường sẽ không hiển thị nội dung mà nó sẽ hide đi. sử dụng ngIf để remove or show content trong ng-template
+		câu lệnh trong <ng-template [ngIf]='condition'> content </ng-template> --> đó là lí do sử dụng dấu * nó tích hợp đc ng-template và rút gọn cú pháp ngIf
+	-Create a structural-directive --> selector va set phải giống nhau , k là sẽ bị lỗi.
+	-[ngSwitch] -> cho trường hợp nhiều lựa chọn/
+		VD:	 <div [ngSwitch]="values">
+				  <p *ngSwitchCase="5"> value is {{ values + 1}}</p>
+				  <p *ngSwitchCase="10"> value is {{ values + 1}} </p>
+				  <p *ngSwitchDefault> NoThing Can Hold Me </p>
+			</div>
+	-Create Directive-Dropdown --> import trong module , VD Đơn gián: import { Directive,HostBinding,HostListener } from '@angular/core';
+																			@Directive({
+																				selector:'[appDropdown]'
+																			})
+																			export class DropdownDirective{
+																				@HostBinding('class.show') show = true;
+
+																				@HostListener('click') changemode(){
+																					this.show = !this.show;
+																				}
+																			}
+***************************************************Folder 9-SERVICE******************************************************
+	-Service dùng để truyền dữ liệu,http,json...v...v, có thể có cả function.
+	-nên để service trong app.module , provider:[name service] vì nó sẽ đồng bộ service với các component.
+	-có thể sử dụng service kết hơp emit để trao đổi thông tin giữa các component.
+	-2 service muốn kết hợp với nhau cần có Injectable().
+	-RÚT LẠI: Cứ đụng đến dữ liệu truyền vào or ra là cho vào service. Đồng thời để đồng bộ hóa dữ liệu trên app.
+	
+***************************************************Folder 11-Rounting (Lộ Trình / Đường dẫn)******************************************************
+ 
+	-Một vài thứ chú ý trong bài này: Params,ActivatedRoute,Router,Data,Resolve,CanDeactivate,Canactivate,CanactivateChild !!!!Important!!!!!!!
+	
+	- import {Routes, RouterModule} from '@angular/router'; --> 2 cai can import trong file module.
+	- const appRoutes:Routes = [
+		  {path: '' , component:HomeComponent},-->tới HomeComponent khi không có đường dẫn nào.
+		  {path: 'users' , component:UsersComponent},-->Tới UserComponent khi đường dẫn có thêm ./users
+		  {path: 'servers' , component:ServersComponent},-->Như trên.
+		]; --->Khai Bao Router
+	-Đồng thời phải import RouterModule.forRoot(appRoutes) trong phần import file module.
+	
+	-Trong file HTML sủ dụng thẻ <router-outlet></router-outlet> thì mới sử dụng mấy cái path được.
+	
+	-Trong thẻ <a> bỏ href="" và sử dụng
+		+ routerLink để không reload lại trang(đc tích hợp sẵn preventdefault()) VD:<a routerLink="./servers">Servers</a>
+		
+		+ routerLinkActive="active" nếu routerLink tồn tại thì sẽ thêm class active vào(để sử dụng vs bootstrap và css) và ngược lại khi không tồn tại.
+		
+		+[routerLinkActiveOptions]="{exact:true}" -> chỉ khi nào đúng hoàn toàn đường dẫn ms thêm class vào(tránh trường hợp thẻ home luôn được active)
+				VD:<a class="nav-link" 
+					  routerLink="/"
+					  routerLinkActive="active"
+					  [routerLinkActiveOptions]="{exact:true}">Home</a> -->routerLinkActive có thể thêm nhiều class 1 lúc.
+	-Có thể dùng function để đổi sang router. 
+		VD: 
+			constructor(private:router:Router){} --> Nhớ Import Router.
+			reloadme(){this.router.navigate(['đường dẫn cần thêm'])}
+			
+	***WARNING***Cần Lưu Ý Giữa Router Và Routes. Router là ở trong component con như VD trên , còn Routes là đường dẫn có path,component được thêm vào trong file module.
+	
+	-<a [routerLink]="['/users',12,'MinhTri']">Load MinhTri(12)</a> --> thêm đường dẫn dạng property và có thêm tham số phía sau đường dẫn.
+	-ngOnInit() {
+			this.user = {
+			  id:this.activatedroute.snapshot.params['id'],
+			  name:this.activatedroute.snapshot.params['name'], --> 2 câu này là để truyền tham số vào Object user lấy từ đường dẫn.
+			}
+			this.activatedroute.params.subscribe(
+			  (param:Params) => {
+				this.user.id = param['id'];
+				this.user.name = param['name']; -->3 cái này là để ReactiveLy(phản ứng ngay) khi đường dẫn đổi tham số , nhớ Import Params trước.
+			  }
+			)
+		  } --> cái này cần Import {ActivatedRoute} cho biến activatedroute thì mới sử dụng được.
+		  
+	-Subscribe dùng để đón dữ liệu sau khi chúng đc cập nhật một cách nhanh nhất.Dữ Liệu do Observable đưa ra cho các component.
+	
+	-Sau khi xài .Subscribe xong thì nhớ OnDeytroy(){ ...unsubscribe} --> tránh trường hợp component khác sử dụng bị trùng đè lên., import subscription truoc.
+	
+	-QueryParams và Fragment là để truyền tham số và #something sau đường dẫn. để lấy tham số đó tham chiếu với dữ liệu. VD: lấy id của sản phẩm.
+	
+	-Phân Biệt Params với QueryParams.
+		+Params -> các biến khác folder  nhau /// QueryParams -> trên cùng 1 folder trong đường dẫn , truyền các tham số vào.
+		+route.params -> lấy các giá trị biến của Params /// route.snapshot.QueryParams -> lấy các giá trị của object QueryParams.
+		+QueryParams được thêm trong thẻ <a> /// params được thêm trong app.module.ts
+		+Params -> phải có unsubscribe /// QueryParams không cần unsubscribe
+		
+	-Truyền params ở trong file module. VD:{path:'user/:id/:name',component:UserComponent},
+	
+	-Sử dụng children trong module và router-outlet trong component để nhóm các đường dẫn chung 1 nhóm với nhau.
+	
+	-Sử dụng queryParamsHandling ='preserve' or ='merge'
+		-> sử dụng cái này vì khi route.navigate nó sẽ xóa mất các QueryParams nếu có cái này nó sẽ giữ lại các queryParams đó.
+		-> Sử dụng preserve khi muốn giữ nguyên các queryParams.
+		-> Sử dụng merge khi muốn thêm các QueryParams mới hợp nhất vs các QueryParams cũ. 
+		-> Đặt ở trong router.navigate , phần relativeTo
+	
+	-Sử dụng redirectTo:'/LinkPath' để đến một path được định nghĩa trước khi ta muốn vào path này. VD:
+		{path:'notfound',component:PageNotFoundComponent},
+		{path: '**',redirectTo:'/notfound'} --> khi ta thêm đường dẫn nào đó (khác các đường dẫn được định nghĩa trước) nó sẽ tự về path:'notfound'
+		-->Lưu ý là phải thêm cái này ở cuối để nó không ảnh hưởng đến các path khác.
+	
+	-Nếu Chuyển toàn bộ Routes qua 1 file module mới thì phải lưu ý Imports:[xyz] xong thì phải Exports:[xyz] mới được (Video 132)
+	
+	-Sử dụng Canactivate để xác thực việc có cho phép truy cập vào 1 component hay không?
+		+{path: 'servers' ,canActivate:[AuthGuardService], component:ServersComponent} --> câu lệnh cho phép truy cập hay không. Nếu true thì vào, false thì thôi
+		+Cái AuthGuardService là mình tạo file service trước đó để tạo điều kiện kiểm tra.
+		+Video 134 để biết thêm chi tiết.
+	
+	-Sử dụng CanactivateChild để xác thực việc có cho phép truy cập vào component con của nó hay không?
+	
+	-Quy trình CanDeactivateGuard: (Lỡ nhấn thoát mà chưa kịp lưu update thì nó sẽ hỏi lại)
+		***Syntax***:
+		interface CanDeactivate<T> {
+			canDeactivate(component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
+		}
+	
+		B1.Tạo 1 CanDeactivateGuard Service xuất 1 interface và 1 class ở trong component có mục cần xử lý update.Trong bài là component edit. (interface dạng tạo 1 giao diện để mẫu cho các phần khác sử dụng) 
+		
+		B2.cho vào module rounting {path: ':id/edit',component:EditServerComponent,canDeactivate:[CanDeactivateGuard]} --> thằng này nhận Class Exports trong 	file phần 1
+		
+		B3.Provider service trong file app.module
+		
+		B4.vào component chứa file.ts có function update()(trong bài là component edit) , nhận cái interface của phần 1 rồi viết code
+	--->Coi lại Video 137 để nhớ thêm.
+			
+	-Lấy Data Tĩnh(Static Data)
+		-> {path:'notfound',component:ErrorPageComponent,data:{Message:"Can't Find This Page!"}},
+		-> Sử dụng Snapshot.data lấy dữ diệu la xong.
+		-> Nhớ Thêm Subscribe để lỡ thay đổi là thay đổi ngay.
+	
+	-Lấy Data động bằng Resolve (Dynamic Data) --> Trong Video 139 sẽ không còn Init các biến id(component server) nữa mà sử dụng Data để load dữ liệu lên.
+		Quy trình Resolve:
+			+interface Resolve<T> {
+				  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<T> | Promise<T> | T
+				}
+			+Id trên URL -> Resolve nhận Id -> Resolve return 1 cục data về -> data hiện tại nằm trong path -> data được truyền về file component.ts
+		
+	QUESTIONS:
+	
+	-<base href="/"> -->??? trong thẻ Head trong trang index
+	-Cách sử dụng useHash(dấu #) trong RouterModule.forRoot????????????
+	
+	
+		*************************************************************Folder 12: Continue Project With Routing*************************************************
+		
+	-Sử dụng path'' relativeTo:'LinkPage' thì cần có thêm pathMatch:'full' mới sử dụng được
+		VD:{path:'',redirectTo:'/recipes',pathMatch:'full'},
+	
+	-Lưu ý nhỏ: --> Nếu sử dụng path'new' ở dưới lại thì nó sẽ lỗi vì nó nghĩ new là một ':id' vậy nên cần phải lưu ý là đẩy mấy cái đường dẫn có chữ lên trên mấy cái biến để tránh lỗi này.
+		{path:'new',component:RecipeEditComponent},
+        {path:':id',component:RecipeDetailComponent},
+		
+		*************************************************************Folder 13: Observable*************************************************
+		
+	--> xử lí ngay khi có thông tin thay đổi.(Reactly).
+	-Sử dụng chung vs subscribe.
+	-Nhớ unsubscribe ngay khi sử dụng xong để tránh tình trạng observable vẫn chạy khi qua component khác.
+	
+	-.create() -> tự tạo custom observable
+	
+	-observer có 3 loại là .next , .error , .complete . 
+		+ trong đó .complete không cần truyền tham số vào , 2 thằng kia thì có.
+		+ .next là bắt buộc , 2 thằng kìa là tùy chọn.
+		+ khi .error or .complete kích hoạt thì các cái .next còn lại k chạy nữa.
+	
+	-Sử dụng subject tốt hơn vì nó tích hợp sẵn cả observable và observer.
+	-interval(1000) --> trong observable trả về 1 chuỗi số tăng dần theo thời gian,trong VD vừa rồi là mỗi 1s 1 lần.
+	-sử dụng .map() kết hơp vs cái trên để sử dụng operator , nó sẽ truyền data của interval vào .map , dù sao cũng chỉ là 1 ví dụ đơn giản , cần xem thêm.
+	
+	Gút: Subscribe(Tức là thay đổi dữ liệu lập thực được thực thi) -> chạy cái subject.next() được cài trước -> chạy hết thì thôi or gặp th nào error or complete
+	
+				*************************************************************Folder 15: Form*************************************************
+				
+	Có 2 Cách đê tạo Form và xử lý dữ liệu:
+		Cách 1:Tạo bằng Teamplate-Driven : Bất Đồng bộ dữ liệu (register form).
+		Cách 2:Tạo bằng Reactive: Đồng bộ dữ liệu (Login Form).
+	
+	Cách 1:Teamplate-Driven
+	{
+		-(ngSubmit)="function()" --> sẽ submit form đó nếu button type="submit" được click.
+		
+		-ngForm là một object chứa nhiều property , trong đó có property .value la một array chứa toàn bộ giá trị trong form khi được submit, phải import ngForm mới xài được(video 172). --> sử dụng local-references #name="ngForm" trong file html
+		
+		-Different [ngModel] and [(ngModel)]:
+			+[(ngModel)]="overRideRate" là viết tắt của [ngModel]="overRideRate" & (ngModelChange)="overRideRate = $event"	
+				.[ngModel]="overRideRate" is to bind overRideRate to the input.value
+				.(ngModelChange)="overRideRate = $event" is to update overRideRate with the value of input.value when the change event was emitted.
+		-->túm lại thằng 2 dấu ngoặc nó update liên tục , nhập chữ vào là nó update ngay , vừa update trong component vừa update html input
+		-->[(ngModel)] được gọi là two-way databinding.
+		
+		-ngFormGroup="namegroup" --> nhóm bớt các value trong mỗi Form lại 1 nhóm trong trường hợp có nhiều Form để quản lí dữ liệu dễ dàng
+		
+		-các input phải sử dụng ngModel để lấy đc value.
+		
+		-(nameForm:ngForm).setvalue({})
+			-->Set default value cho các input, cấu trúc như là 1 object của javascript.thằng nào xai FormGroup thì thêm namegroup thì r thêm dữ liệu vào.
+			-->Phải set toàn bộ input, để trống thì set:'' , không được bỏ qua.
+			-->khi set thì những giá trị được điền từ trước sẽ trở lại giá trị default.
+			
+		-(nameForm:ngForm).form.patchValue({})
+			--> cũng là 1 dạng setdefault or suggest giống mục 1 setvalue
+			-->không phải set toàn bộ input, muốn set thằng nào thì set thằng đó , bỏ qua được những input k muốn set
+			--> Vì bỏ qua được nên những thằng k được set ở trên sẽ không mất dữ liệu đã được điền vào trước đó dù cho Event xảy ra.
+			
+		-Lấy Data bằng cách tạo 1 object có số lượng property tương ứng bằng số lượng data r truyền data vào đó , sau đó muốn gọi ntn thì tuy mục dích
+		
+		-nameForm:ngForm).reset() 
+			-->Dùng để reset lại form sau khi submit , các form trở về trạng thái National , untouched , pristine(nguyen thuy).
+	}
+	Cách 2: Reactive Form(FormGroup,FormControl,FormArray)
+	{
+		-Trong file component tạo một biến: reactiveform: FormGroup; 
+		-Trong file module: Import ReactiveFormsModule
+		-Khởi tạo các FormControl trong component--> this.signupForm = new FormGroup({
+										'username':new FormControl('defaultValue'),
+										'email': new FormControl(null,[Validators.required,Validators.email]) --> Thêm các điều kiện Validators vào Form
+										})
+		-Vào file HTML để đồng bộ dữ liệu vs Component
+			--><form [formGroup] = "signupForm">
+		-Truyền dữ liệu vào các Input
+			--><input formControlName="username">
+		-Muốn submit Form thì sử dụng (ngSubmit) trong thẻ Form --> <form (ngSubmit)="function()">
+		
+		-Dùng để thiết lập các Input không đúng kiểu dữ liệu. name_form_group.get('name_property')
+			
+		
+		-Có thể lồng new formGroup với nhau để control các dữ liệu tốt hơn.Qua HTML chỉ cần tạo <div formGroupName ="NameFormGroup"> sau đó đưa các input vào trong là có thể sử dụng như bình thường giống như Teamplate-Driven Form.
+			-->this.signupForm = new FormGroup({
+				  'userData': new FormGroup({
+					'username':new FormControl(null,[Validators.required]),
+					'email': new FormControl(null,[Validators.required,Validators.email]),
+				  }),
+
+				  'gender':new FormControl('male'),
+				})
+				
+		-FormArray --> là một mảng chưa các phần tử(có thể là kiểu FormControl, cũng có thể là FormGroup..)
+		-(<FormArray>this.signupForm.get('name_Form_array')).push(name_something); --> Push một phần tử vào FormArray.
+		-Bên Template: Muốn lấy được các value trong mảng ra thì sử dụng *ngFor không là chưa đủ, phải sử dụng let i = index, vì các phần tử Form trong Array có name là thứ tự Index(VỊ TRÍ) trong mảng. VD:
+			<div 
+				*ngFor="let hobby of signupForm.get('hobbies').controls; let i = index"
+				class="form-group">
+					<input type="text" class="form-control" [formControlName]="i">
+			</div> --> FormArray có các phần tử là kiểu FormControl , các formControlName = vị trí Index trong mảng.(Video 194).
+		 
+		 -Khi sử hàm mà có sử dụng this trong đó thì cần .bind(this) để nó hiểu được từ this trong hàm kia.(video 195)
+		 -Có một phần gọi là Errors, nó sẽ thông báo form bị lỗi gì (vi dụ: required:true --> lỗi để trống) --> sử dụng để báo lỗi phù hợp khi nào vào.(video 196)
+			VD:
+				<span *ngIf="signupForm.get('userData.username').errors['required']"> 
+                      Please Enter Value In This Field
+                </span>
+                <span *ngIf="signupForm.get('userData.username').errors['NameIsForbidden']"> 
+                        This Name Is Forbiddened!! Please Enter Orther Name.
+                </span>
+		-Nếu sử dụng Async Validators thì nó có 2 giai đoạn trong HTML: ng-pending -> ng-invalid/ng-valid -> coi videp 197 để rõ hơn.
+		
+		-Có 2 thuộc tính trong FormGroup là .statusChanges và .valueChanges --> dùng để .subscribe khi có dữ liệu thay đổi or trạng thái đúng/sai thay đổi thì báo ngay.(Video 198).
+		
+		-patchValue và setvalue , reset thì cũng giống như Teamplate-Driven Form.
+	}
+	*************************************************************Folder 16: Continue Project With Form*************************************************
+		+Add FormsModule trong file module.
+		
+		+Add new-item trong shopping-list bằng ngForm và ngSubmit
+		
+		+Sử dụng pattern trong thẻ input để ràng buộc kiểu dữ liệu nhập vào (Tìm hiểu thêm về pattern để biết cú pháp).
+		
+			->pattern="^[1-9]+[0-9]*$" nhập khác kiểu số vào, thậm chí là số âm là invalid form ngay!
+			
+		+Sử dụng [disable]='!nameform.valid' để set enable nút Add.
+		
+		+Để chọn vào các phần tử của list và thông tin của nó hiển thị lên Input theo bài cần làm các bước sau: (Video 203-204)
+			B1: tạo hàm lấy được Index(vị trí) của phần tử đó trong mảng.
+			B2: Tạo 1 Subject để truyền vị trí trên vào Next
+			B3: Tạo một hàm lấy phần tử từ trong mảng từ vị trí được cho.
+			B4: Dùng Subject đó .subscribe thì nó sẽ trả về vị trí trong next , tiếp tục sử dụng hàm ở B3 bằng tham số Next vừa lấy được.
+			B5: dùng Setvalue trong ngForm để truyền dữ liệu vào các thẻ input để nó hiển thị.
+		
+		+Hoàn tất phần Update trong Project.(Video 205)
+			B1:Viết Hàm UpdateIngredient(index,selectedIngredient).
+			B2:khi nào chế độ Editmode = true thì vs hoạt động hàm trên.(chế độ được nên được tạo chung vs phần hiển thị thông tin edit ở trên).
+			
+		+Sử dụng Splice() để delete item được chọn. Nhớ Disabled nút delete tránh lỗi khi không chọn mà vẫn hoạt động.
+	
+		+Sử dụng ReactiveForm thiết kế phần Recipe(từ video 209 trở lên)
+			.Tạo các FormGroup, FormControl bình thường
+			.Đến phần các ingredient của mỗi recipe dùng FormArray, Sau khi khởi tạo xong thì đây là cách push các ingredient vào Array:
+				
+											if(value['ingredients'])
+											  {
+												for(let items of value.ingredients)
+												{
+												  recipeIngredients.push(
+													new FormGroup({
+													  'name':new FormControl(items.name),
+													  'amount':new FormControl(items.amount),
+													})
+												  )
+												}
+											  }
+			--> Nhớ khi ra phần HTML trong ngFor phải có get('name_of_formArrray').controls; let i = index --> vì các formGroupName = 'i' , khi đó mới gọi các giá trị còn lại ra được.		
+
+		+Phần Thêm Ingredient mới thì sử dụng cú pháp:
+			onAddIngredient(){
+				(<FormArray>this.recipeForm.get('ingredients')).push(
+				  new FormGroup({
+					'name':new FormControl(),
+					'amount': new FormControl(),
+				  })
+				);
+			  }--> Đây là hàm thêm Ingredient mới, vì push vào ingredients trong recipeForm(tức formGroup trong bài) thì sử dụng cú pháp như trên.
+		
+		+Thểm Recipe mới or Update Recipe trong bài.
+			B1: Tạo Hàm Thêm và Hàm Update.
+			B2:	Tạo Subscribe để thông báo với các bên biết về việc thay đổi dữ liệu
+			B3: Tạo một biến chứa các dữ liệu cần thêm or update.
+				const recipe = new Recipe(
+				  this.recipeForm.value['name'],  
+				  this.recipeForm.value['description'],
+				  this.recipeForm.value['imagepath'],  
+				  this.recipeForm.value['ingredients'],
+				); --> Thật ra nếu đặt trùng tên biến vs biến trong Kiểu Recipe trong file model thì có thể this.recipeForm.value được, nhưng do lỡ đặt khác tên biến và vị trí nên đành phải sử dụng ntn. Tuy dài dòng nhưng đảm bảo hơn.Ví trí 4 cái trên phải tương ứng vs 4 dữ liệu trong kiểu Recipe thì ms truyền chính xác được.
+			B4: truyền biến mới tạo trên vào hàm thêm or sửa tùy vào mode đang là update hay add.
+			
+		+Syntax lùi một bước trên đường dẫn: this.router.navigate(['../'],{relativeTo:this.route});
+		
+		+Delete Recipe thì cứ dùng splice giống phần shopping-list.
+		
+		+Fix lí do khi chuyển qua shopping-list sau đó quay lại Recipe thì chỉ còn 2 item mặc định
+			-> vì khi ra khỏi recipe thì file recipe.service.ts sẽ bị destroy nên nó không còn lưu được dữ liệu vừa thêm nữa mà chỉ có 2 dữ liệu gốc nhập vào bằng tay từ trước. Muốn khắc phục thì chuyển file này vào app-module gốc và provider vào.
+		
+		+cú pháp Delete một ingredient trong mảng các Ingredients :
+			(<FormArray>this.recipeForm.get('ingredients')).removeAt(index); --> Với index được truyền tham số bên file HTML (video 215+).
+			
+	*************************************************************Folder 17: PIPE*************************************************
+	
+	- Đưa dữ liệu đầu vào và trả dữ liệu đầu ra theo định dạng mong muốn.
+		+VD: <strong>{{ server.name }}</strong> | {{ server.instanceType | uppercase }} | {{ server.started | date }} --> tự động in hoa ở instanceType và chuyển về dạng ngày tháng ở started.
+		+ Ở ví dụ trên trong phần date có thể chỉnh format kiểu ngày VD: date:'fullDate' , or date:'shortDate'...
+		+ Tìm hiểu thêm ở: https://angular.io/api?query=pipe
+		+ Khi thêm nhiều Pipe cần lưu ý, Pipe hoạt động từ trái qua phải(tức pipe nào đứng trước thì thêm trước) nên phải để cẩn thận nếu không sẽ xung đột dữ liệu. VD:
+			{{ server.started | uppercase | date:'full' }} --> Errors.(date không thể hiểu dữ liệu phía trước nó tức là uppercase)
+			{{ server.started | date:'full' | uppercase  }} --> MONDAY, AUGUST 9, 1920 AT 12:00:00 AM GMT+07:00 (true)
+	
+	- Tự tạo một Pipe theo ý muốn:
+		B1: tạo một file .pipe.ts VD: Newpipe.pipe.ts
+		B2: viết Code muốn xử lý trong file pipe. Import PipeTransform để viết code chuyển đổi theo ý muốn , Import Pipe để đặt tên pipe khi sử dụng trên HTML
+			VD:
+				@Pipe({
+						name:'shorten' --> pipe này muốn sử dụng được trong HTML có tên là shorten.
+					})
+				export class PipeShorten implements PipeTransform{
+					transform(value: any, limit:number) { 
+						if(value.length > limit)
+						{
+							return value.substr(0,limit) + ' ...';
+						}
+						return value;
+					}
+				} --> Khi pipe này được thực thi nó sẽ cắt (limit) kí tự đầu tiên của chuỗi nếu chuỗi dài hơn (limit) kí tự.
+		B3: Import vào file module trong phần declarations.
+		B4: Sử dụng trong HTML: shorten:15 --> cắt 15 kí tự đầu tiên nếu dài hơn.
+	
+	-Có thể thêm nhiều biến số khác sau value:any...VD(limit ở trên)
+	
+	-Tạo filter pipe.
+		B1: Tạo một cái input có ngModel và đặt biến local-references
+		B2: Tạo một file pipefilter.pipe.ts. Viết hàm cần sử dụng ở trong
+			VD Theo bài:
+				transform(value: any,filterstring:string,propertyname:string): any {
+					if(value.length === 0 || filterstring === '')
+					{
+					  return value;
+					}
+					const FilterArray=[];
+					for(const item of value) --> item tức là từng phần tử của mảng value ở ngoài HTML
+					{
+					  if(item[propertyname] === filterstring)
+					  {
+						FilterArray.push(item);
+					  }
+					}
+					return FilterArray;
+				  }
+		B3: Ra HTML sử dụng Pipe
+			VD theo bài:
+			*ngFor="let server of servers | filterpipe:inputfilter:'status' " --> inputfilter là cái local-references ở input trên, value tương ứng vs server.
+			
+	-Pure --> default là đúng, nếu thêm một dữ liệu mới có kiểu dữ liệu giống khuôn mẫu thì nó sẽ k thay đổi , thực thi cũng như thông báo. --> phải chuyển về impure tức là Pure:false thì nó sẽ thực thi ngay cả khi thêm or xóa dữ liệu đơn giản. Mỗi thằng có mỗi cái ứng dụng riêng, Tự tìm hiểu thêm.
+	
+	-Async Pipe Sử dụng tạo subscribe Observable or Promise và để tự động unsubscribe mà không cần phải dùng cách thủ công khi component destroy.Đồng thời còn Ứng dụng vs HTTP
+	
+	*************************************************************Folder 18: HTTP*************************************************
+	
+	-HTTP là một class được định nghĩa trong Angular, bằng các phương thức truyền dữ liệu(như .get,.post,.put...) nó sẽ gửi một request lên. Sau khi request được gửi thì một observable sẽ được trả về chứa một response duy nhất.
+	--> Hiểu nôm na ntn: put(post) tạo ra 1 observable , muốn kích hoạt observable đó thì cần phải subscribe tại nơi run function thì nó mới save được.
+	-Tạo database trên firebase.google.com 
+	-Đường dẫn trong post ở cuối thêm 'name.json'. (Video 232->233).(name ở đây là giống như là folder sẽ chưa các dữ liệu)
+	
+	-Có thể chỉnh sửa or thêm thuộc tính cho phần headers. Không cần thiết lắm cơ mà cũng nên xem(Video 234).
+	
+	-Post dùng để tạo mới dữ liệu
+	-Sử dụng get để lấy dữ liệu về, khai báo kiểu Response để sử dụng method .json() --> lấy file json.
+	
+	-Put dùng để update dữ liệu. Cần phải để chính xác đường vì update nó override dữ liệu, nếu sai nó đè lên xóa mất dữ liệu quan trọng của mình.
+	
+	-Các method trong angular http như (map, filter...) đều trả về một Observable, nên có thể thực hiện trực tiếp trên các .get sau đó chỉ cần subscribe bên service là được.
+	
+	-Cách bắt lỗi trong http : Vì nó trả về là 1 Observable nên cần phải throw cái response ra thì hàm mới nhận được dữ liệu.
+		.catch(
+            (error:Response) => {
+                // return Observable.throw('ERROR IN GETSERVER() FUNCTION'); --> trường hợp không muốn trả về response mà là một string thì làm ntn.
+                return Observable.throw(error);
+            }
+        )
+	
+	-Có thể dùng pipe async để lấy dữ liệu mà k cần subscribe dữ liệu đó sau khi get (video 240)
+	
+	*************************************************************Folder 19: Course-Project HTTP *************************************************
+	
+	*************************************************************Folder 20: Authencation route protection  *************************************************
+	-Set up Firebase vào project: npm install --save firebase 
+	
+	-import firebase vào app-component và khởi tạo ngOnInit firebase.initialize({ Lấy 2 cái auth đầu tiên trên firebase.google WEBSETUP}) trong app.component.ts
+	
+	
+	-tạo service Auth. 
+		+ import * as firebase from 'firebase'; để sử dụng được firebase.
+		
+		+ firebase.auth() --> Dùng cho các mục đích đăng kí và đăng nhập, xác thực khi muốn sử dụng app của chúng ta.(Dùng truy cập vào firebase-authentication)
+			--> Nó có khá nhiều method, vào https://firebase.google.com/docs/reference/js/firebase.auth.Auth để tìm hiểu từng cái.
+			
+		+ SignUp thì sử dụng createUserWithEmailAndPassword(email,pass) (Nhớ là phải bật cái email enable bên console.firebase) (Set Up Firebase SDK).
+		
+		+ SignIn thì sử dụng signInWithEmailAndPassword(email,pass).then...
+		
+		+Khi SignIn thì nó sẽ trả về một cái mã Token đăng nhập, dùng .currentUser.getIdToken()... để lấy cái token đó để đăng nhập vào firebase.
+		
+		+ Chuyển chế độ trong firebase từ true thành auth != null hết.
+		
+	-Để thực hiện tính năng bắt buộc đăng nhập ms được fetch và save data cần các bước.
+			Viết một hàm lấy GetToken bên AuthService
+				+ Hàm cũng giống như currentUser.getIdToken để lấy được cái mã Token giống đăng nhập.
+				
+				+ Ở 2 hàm Fetch và Save có phần put và get, đường dẫn được thay đổi ntn để kiểm tra đăng nhập:
+					'https://http-angular-f534b.firebaseio.com/recipe.json?auth=' + token' --> Token là cái mã mới lấy được từ hàm GetToken bên AuthService
+			
+	- Để Đăng xuất tài khoản sử dụng .signOut()
+
+	- Để tạo 1 Guardiant bảo vệ thêm và sửa thì cần các bước.
+		+ Viết một hàm kiểm tra có đang đăng nhập hay không(this.token != null).
+		+ Tạo 1 serviceGuard có hàm CanActivate , cho hàm return cái kq tồm tại hay không ở bước trên.
+		+ Qua phần thêm canActivate vào các rounting cần chặn.
+		+ Provider vào file App gốc.
+		
+	*************************************************************Folder 21: Using Angular Module to Optimizing App  *************************************************
+	
+	-SharedModule là nơi chưa các Directive, Pipe, or các Component có tính chất sử dụng trong nhiều mục khác. Khi viết module cho Shared thì declaration rồi export nó ra.
+	-FeatureModule là các module của các tính năng trong app.
+	-lazy load là cái nào cần mới Load chứ không phải mới vô là load hết toàn bộ các component.
+	-CoreModule: là nới chứa các component có tính chất điều hướng(directive) như homepage ,header
+	
+	-Không thể declaration 1 component trong 2 module.
+	
+	-Module trong các mục con thì import CommonModule , chỉ có riêng Module trong root thì nó import: BrowserModule rồi. Vì CommonModule cũng là một phần của BrowserModule.
+	-có CommonModule ms sử dụng các đặc tính cơ bản như binding , *ngIf, *Ngfor trong các Component con được (do bình thường add vào root thì nó có BrowserModule rồi nên k cần import).
+	
+	-Tạo rounting module con thì khi sử dụng phải là RouterModule.forChild() --> Vì forRoot chỉ sử dụng cho app-root còn khi đã ra component con thì phải sử dụng forChild.
+	-File rounting module con này nên đc import vào file module con cùng thư mục. (trong bài là recipe-rounting.module đc truyền vào recipes.module.ts)
+	
+	
+	
+	?????????????????????????????????????????????????????????????????????????????????????????????????.
+	???????HỎi lại phần declaration và export cái dropdown trong bài???
+	?????Taị sao cái module Shared lại k xài đc trong th RecipeModule dù đã cài trong module root????
+	?????Export CommonModule trong shared???????????????
+	
+	
+	-2 cách load component(do thằng shopping-list Component chỉ có 1 path nên sử dụng ntn cũng dc): 
+							1 -> là thông qua selector bằng cách declaration trong module
+							2 -> là tạo file module r import vào.
+							
+	-Lazyload:
+		+B1: ở phần app-rounting thay vì để component thì sẽ để là loadChildren: 'đường dẫn tới file module của component đó'.
+			VD:{path:'recipes',loadChildren:'./recipes/recipes.module#RecipesModule'}, --> #là tên file module export.
+		+B2: ở trong file rounting của component cần lazyload, chuyển phần tên đường dẫn đầu tiên thành rỗng. Vì nó đã tự truy cập được tới phần recipes rồi.
+			VD Trong bài là file recipes-rounting đã thay path:'recipes' thành path:'' --> KQ vẫn dẫn đến recipes component.
+	
+	-CoreModule: 
+		+sau khi chuyển các component có tính directive như nói ở trên đầu mục.
+		+Chú Ý import , export chính xác các thử cần thiết cho các component.
+		+Chuyển hết các provider service vào Coremodule. và remove provider service đó ở appModule.
+		+trong bài nó có vào recipe rounting để provider cái authGuard --> Vì khi remove ở file root thì Guard ở rounting không còn sử dụng được nên cần import cho nó.
+		
+		
+		
+	
+	-Compilation: Trước khi trình duyệt biểu diễn toàn bộ các component của mình thì nó cần convert sang javascript trước được gọi là angular compilation. Và có 2 cách để convert được sử dụng trong Angular Compilation là JIT(Just In Time) và AoT(Ahead Of Time)
+		+Just In Time: Là convert trong ngay tại thời điểm app chạy trên browser.
+		+Ahead Of Time: Là khi nào bắt đầu built ms convert.
+		
+	-Nên sử dụng Compilation AOT vì:
+		+Faster Renderering: vì nó tải xuống trước một phiên bản đã được biên dịch, nên app có thể hoạt động ngay lập tức mà k cần chờ 'compile app first'.
+		
+		+Fewer asynchronous requests
+		
+		+Smaller Angular framework download size: K cần down trình biên soạn của Angular khi app đã được compiled.The Compiler gần như là một nửa của Angular nên k cần down như v đã giảm đc một kích thước đang kể của Application.
+		
+		+Detect template errors earlier: phát hiện và báo cáo lỗi trong suốt quá trình build ngay trước khi người dùng thấy được.
+		
+		+Better security: 
+	
+	-Syntax: ng build --aot
+	--> nó sẽ tạo ra 1 folder dist chứa các mục vừa tạo.
+	-Một số lưu ý: 
+		+Khi sử dụng ng build như trên thì cần vào folder app vào file tsconfig.app.json đổi "module":"es2015" thành "module":"esnext".
+		+Mốt số biến private thành public nếu báo lỗi.
+		+lỗi Form.Controls not type abtrac... thì fix như sau: 
+			-Tạo một method get: --> get formData() { return <FormArray>this.recipeForm.get('ingredients'); } Theo bài đang làm là như thế này.
+			-Sử dụng method đó để .controls thì sẽ hết lỗi.
+							
+	-Muốn sử dụng folder được Folder Dish cần làm các bước sau: (k cần node module gì hết vì đã được biên dịch sang file js hết r).
+		+ B1: Vào Folder Chứa Folder Dist, bật command lên để sang bước 2.
+		+ B2: Cài đặt Globally như sau: npm install http-server -g. 
+		+ B3: Vào trong Project có chưa Folder Dist chạy syntax: http-server dist/
+		+ B4: (Nếu Xài Angular 6.x.x): http-server dist/your-project-name
+	--> sử dụng localhost:8080 để chạy.
+	
+	-Preloading Lazyload:
+		+Nó sẽ load sẵn cái file mấy cái module khởi tạo trước , còn các phần khác thì khi nào truy cập nó mới load ,hỗ trợ lazyload , tránh tình trạng nặng quá khi chuyển trang ms load thì sẽ load không kịp.
+		+Vào Rounting App Module, thêm vào sửa cái dòng imports forRoot ... thành  imports:[RouterModule.forRoot(appRoutes,{preloadingStrategy:PreloadAllModules})],
+		
+		*************************************************************Folder 26: Extend: Animation In Angular  *************************************************
+	
+	-animations được đặt trong phần component chung vs selector và templateUrl. Được viết dưới kiểu một mảng.
+		 VD: animations:[]
+	
+	-Khi sử dụng animations thì có một vài thuộc tính phổ biến như sau:
+		+trigger: gồm 2 phần là tên và các trạng thái animation của trigger này.
+		+state: gồm 2 phần tên và style.
+		+transition: giống transition trong css, chủ yếu về thời gian transition và thêm style nếu cần thiết.
+		
+			VD:trigger('testAnimation',[
+				  state('normal',style({
+					'background-color':'red',
+					transform:'translateX(-0px)'
+				  })),
+				  state('highlighted',style({
+					'background-color':'blue',
+					transform:'translateX(100px)',
+				  })),
+				  transition('normal <=> highlighted',animate(500)),
+				]),
+				
+				
+			ở mục HTML sẽ là : <div style="width:100px; height:100px;" [@testAnimation]="test"></div> --> Với biến "test" nên được khởi tạo trong file component là một trong các kiểu state ở trên. Khác tên là nó k chạy đâu.
+		--> Ở ví dụ trên: 
+				* Animations có 1 kiểu trigger là "testAnimation" , nếu muốn sử dụng thì ra file HTML [@testAnimation]="variable" với variable là một biến tạo trong file component
+				* có 2 kiểu variable được định nghĩa style trong trigger trên là "normal" và "highlighted".
+				* 2 kiểu này có thời gian animate qua lại là 0.5s.
+	
+	-Một số lưu ý quan trọng và căn bản cần nhớ trong animations angular:
+		+Muốn sử dụng animate cùng một lúc thì nên group lại trong transition.
+		+Trong state, ngoài các name do chính mình đặt ra thì còn có 2 loại name đặc biệt: 
+			1. * --> tượng trưng cho tất cả
+			2. void --> tượng trưng cho để trống. trong ví dụ phần list Folder 26 này có làm ví dụ về Void.
+		+Các thuôc tính muốn transition được thì trước hết phải set nó trước đã, nếu không set thì nó sẽ k hiểu được trong phần transition.
+		+Sử dụng keyframe để phân giai đoạn animate như trong css.
+			->Thuộc tính offset(0 <= x <= 1) -> tượng trưng cho mỗi giai đoạn hoàn thành xong animate nếu k muốn nó chia đều thời gian cho các mức animate.
+		 VD:
+			transition('* <=> shrunken', 
+			[
+			  style({       
+				'borderRadius':'0'          
+			  }),
+			  animate(1000, style({
+				'background-color':'green',
+				transform:'translateY(-50px)',
+				'borderRadius':'50px'
+			  })),
+			  animate(1000)
+			]
+		  ), --> Ở ví dụ này , nếu ko set cái style borderRadius là 0 trước thì khi animate nó sẽ k hiểu borderRadius 50px.
+		  
+	*************************************************************Folder 26: Redux in angular  *************************************************	  
+		// CAI DAT REDUX
+		--> B1: npm install ngrx/store --save 
+		--> B2: import {StoreModule} from '@ngrx/store'
